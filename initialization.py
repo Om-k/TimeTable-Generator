@@ -10,7 +10,7 @@ def leastBusyTeacher(teacher_List):
             val = i
     
     return val
-
+ 
 
 week_Map = {
     0:"Mon",
@@ -90,12 +90,12 @@ for sec in range(1,no_Of_Sec+1):
         for day in range(6):
             temp_No_Hours = sorted(temp_No_Hours, key=lambda x: (x[1] + int(random.uniform(0, 10))), reverse=True)
             hTemp = []
-            while temp_No_Hours and (temp_No_Hours[0][0],assigned_Teachers[(sec,temp_No_Hours[0][0])]) in asigned_Hours.keys():
+            while temp_No_Hours and (week_Map[day],assigned_Teachers[(sec,temp_No_Hours[0][0])]) in asigned_Hours.keys():
                 hTemp.append(temp_No_Hours.pop(0))
                 temp_No_Hours = sorted(temp_No_Hours, key=lambda x: (x[1] + int(random.uniform(0, 30))), reverse=True)
             
             if temp_No_Hours:
-                asigned_Hours[(temp_No_Hours[0][0],assigned_Teachers[(sec,temp_No_Hours[0][0])],period)] = True    
+                asigned_Hours[(week_Map[day],assigned_Teachers[(sec,temp_No_Hours[0][0])],period)] = True    
                 temp_No_Hours[0][1] -= no_of_weeks*(week_Day_Probabilty[week_Map[day]]/100)
                 #print(no_of_weeks*(week_Day_Probabilty[week_Map[day]]/100))
                 sem7[sec][week_Map[day]][period-1] = ((temp_No_Hours[0][0],assigned_Teachers[(sec,temp_No_Hours[0][0])]))
@@ -112,5 +112,7 @@ for sec in range(1,no_Of_Sec+1):
 file = open('output.txt', 'w')           
 print(sem7)
 file.write(str(sem7))
+
+#print(asigned_Hours)
 #file.write(json.dumps(sem7, indent=2))
 

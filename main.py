@@ -30,7 +30,7 @@ sub_Teachers = {
     "18CS72" : ["Shiji","Ashwini","Shreenath2"],
     "18CS734" : ["Shreenath","Anand Prabhu","Janardan"],
     "18CS744" : ["Adarsh","Harisha","Joylene"],
-    #"OPT" : []
+    #"OPT" : ["Prasad Chandran N","Smitha","Natural"]
 }
 
 no_Of_Hours_Subject = {
