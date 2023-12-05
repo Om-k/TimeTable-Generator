@@ -66,17 +66,27 @@ cur_TimeTable = {week_Map[0]:[],
     week_Map[4]:[],
     week_Map[5]:[]}
 
-sem7 = []
+for i in range(6):
+    for j in range(max_No_Hours):
+        cur_TimeTable[week_Map[i]].append("")
+
+sem7 = [cur_TimeTable]
+for sec in range(1,no_Of_Sec+1):
+    cur_TimeTable1 = copy.deepcopy(cur_TimeTable)
+    sem7.append(cur_TimeTable1)
+
+print(sem7)
+
 for sec in range(1,no_Of_Sec+1):
     temp_No_Hours = list(no_Of_Hours_Subject.items())
     for i in range(len(temp_No_Hours)):
         temp_No_Hours[i] = list(temp_No_Hours[i])
 
-    cur_TimeTable1 = copy.deepcopy(cur_TimeTable)
+    #sem7[sec] = copy.deepcopy(cur_TimeTable)
+    period = 1
     while temp_No_Hours:
         #print(temp_No_Hours)
-        #print(cur_TimeTable1)
-        period = 1
+        #print(sem7[sec])
         for day in range(6):
             temp_No_Hours = sorted(temp_No_Hours, key=lambda x: (x[1] + int(random.uniform(0, 10))), reverse=True)
             hTemp = []
@@ -88,14 +98,14 @@ for sec in range(1,no_Of_Sec+1):
                 asigned_Hours[(temp_No_Hours[0][0],assigned_Teachers[(sec,temp_No_Hours[0][0])],period)] = True    
                 temp_No_Hours[0][1] -= no_of_weeks*(week_Day_Probabilty[week_Map[day]]/100)
                 #print(no_of_weeks*(week_Day_Probabilty[week_Map[day]]/100))
-                cur_TimeTable1[week_Map[day]].append((temp_No_Hours[0][0],assigned_Teachers[(sec,temp_No_Hours[0][0])]))
+                sem7[sec][week_Map[day]][period-1] = ((temp_No_Hours[0][0],assigned_Teachers[(sec,temp_No_Hours[0][0])]))
                 if temp_No_Hours[0][1] <=0:
                     temp_No_Hours.pop(0)
             if hTemp:
                 temp_No_Hours = hTemp + temp_No_Hours
         #print(temp_No_Hours)
         period+=1
-    sem7.append(copy.deepcopy(cur_TimeTable1))
+    #sem7.append(copy.deepcopy(sem7[sec]))
     #print("yooooooooooooooooooo")
     #print(sem7)
 

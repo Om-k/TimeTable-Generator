@@ -22,13 +22,15 @@ techers_Subs = {
     "Janardan" : ["18CS734"]
 }
 
+max_No_Hours = 7
 teachers = ["Suhas","Shiji","Ashwini","Shreenath","Anand Prabhu","Adarsh","Harisha","Reshma","Shreenath2","Joylene","Janardan"]
 subjects = ["18CS71","18CS72","18CS734","18CS744"]
 sub_Teachers = { 
     "18CS71" : ["Suhas","Shiji","Reshma"],
     "18CS72" : ["Shiji","Ashwini","Shreenath2"],
     "18CS734" : ["Shreenath","Anand Prabhu","Janardan"],
-    "18CS744" : ["Adarsh","Harisha","Joylene"]
+    "18CS744" : ["Adarsh","Harisha","Joylene"],
+    #"OPT" : []
 }
 
 no_Of_Hours_Subject = {
