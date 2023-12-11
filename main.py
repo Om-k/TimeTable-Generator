@@ -23,21 +23,28 @@ techers_Subs = {
 }
 
 max_No_Hours = 7
-teachers = ["Suhas","Shiji","Ashwini","Shreenath","Anand Prabhu","Adarsh","Harisha","Reshma","Shreenath2","Joylene","Janardan"]
-subjects = ["18CS71","18CS72","18CS734","18CS744"]
+no_Of_Opt_Subs = 3
+no_Of_Sec_In_Batch = 3
+teachers = ["Suhas","Shiji","Ashwini","Shreenath","Anand Prabhu","Adarsh","Harisha","Reshma","Shreenath2","Joylene","Janardan","Prasad Chandran N","Smitha","Natural"]
+subjects = ["18CS71","18CS72","18CS734","18CS744","18CSOP1","18CSOP2","18CSOP3"]
+
 sub_Teachers = { 
     "18CS71" : ["Suhas","Shiji","Reshma"],
     "18CS72" : ["Shiji","Ashwini","Shreenath2"],
     "18CS734" : ["Shreenath","Anand Prabhu","Janardan"],
     "18CS744" : ["Adarsh","Harisha","Joylene"],
-    #"OPT" : ["Prasad Chandran N","Smitha","Natural"]
+    "18CSOP1": ["Prasad Chandran N"],
+    "18CSOP2": ["Smitha"],
+    "18CSOP3": ["Natural"],
+    "Opt" : ["18CSOP1","18CSOP2","18CSOP3"]
 }
 
 no_Of_Hours_Subject = {
     "18CS71":50,
     "18CS72":50,
     "18CS734":40,
-    "18CS744":40
+    "18CS744":40,
+    "Opt": 40 #[18CSOP1,18CSOP2,18CSOP3]#[40,40,40] #as many as number of sections
 }
 
 no_Of_Days = 102 
@@ -53,7 +60,21 @@ week_Day_Probabilty = {
     "Sat" : 50
 }
 
+teachers_Busy = {}
+for i in teachers:
+    teachers_Busy[i] = 0
 
+
+week_Map = {
+    0:"Mon",
+    1:"Tue",
+    2:"Wed",
+    3:"Thu",
+    4:"Fri",
+    5:"Sat"
+}
+
+days_In_Week = 6
 #initialisations of values done
 
 # print("Calling function from file2.py")

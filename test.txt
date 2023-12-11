@@ -1,0 +1,22 @@
+[{'Mon': ['', '', '', '', '', '', ''], 'Tue': ['', '', '', '', '', '', ''], 'Wed': ['', '', '', '', '', '', ''], 'Thu': ['', '', '', '', '', '', ''], 'Fri': ['', '', '', '', '', '', ''], 'Sat': ['', '', '', '', '', '', '']}, 
+
+{'Mon': [('18CS72', 'Shreenath2'), ('18CS744', 'Adarsh'), ('18CS71', 'Suhas'), '', '', '', ''], 
+'Tue': [('18CS71', 'Suhas'), ('18CS71', 'Suhas'), ('18CS72', 'Shreenath2'), '', '', '', ''], 
+'Wed': [('18CS744', 'Adarsh'), ('18CS734', 'Janardan'), ('18CS734', 'Janardan'), '', '', '', ''], 
+'Thu': [('18CS734', 'Janardan'), ('18CS72', 'Shreenath2'), '', '', '', '', ''], 
+'Fri': [('18CS72', 'Shreenath2'), ('18CS744', 'Adarsh'), '', '', '', '', ''], 
+'Sat': [('18CS71', 'Suhas'), ('18CS734', 'Janardan'), '', '', '', '', '']}, 
+
+{'Mon': [('18CS71', 'Suhas'), ('18CS72', 'Shiji'), ('18CS734', 'Janardan'), '', '', '', ''], 
+'Tue': [('18CS72', 'Shiji'), ('18CS744', 'Harisha'), ('18CS71', 'Suhas'), '', '', '', ''], 
+'Wed': [('18CS734', 'Janardan'), ('18CS744', 'Harisha'), ('18CS72', 'Shiji'), '', '', '', ''], 
+'Thu': [('18CS744', 'Harisha'), ('18CS734', 'Janardan'), '', '', '', '', ''], 
+'Fri': [('18CS71', 'Suhas'), ('18CS71', 'Suhas'), '', '', '', '', ''], 
+'Sat': [('18CS72', 'Shiji'), ('18CS72', 'Shiji'), '', '', '', '', '']}, 
+
+{'Mon': [('18CS72', 'Ashwini'), ('18CS71', 'Suhas'), ('18CS72', 'Ashwini'), '', '', '', ''], 
+'Tue': [('18CS734', 'Anand Prabhu'), ('18CS734', 'Anand Prabhu'), ('18CS744', 'Joylene'), '', '', '', ''], 
+'Wed': [('18CS71', 'Suhas'), ('18CS71', 'Suhas'), ('18CS71', 'Suhas'), '', '', '', ''], 
+'Thu': [('18CS744', 'Joylene'), ('18CS72', 'Ashwini'), ('18CS734', 'Anand Prabhu'), '', '', '', ''], 
+'Fri': [('18CS72', 'Ashwini'), ('18CS744', 'Joylene'), '', '', '', '', ''], 
+'Sat': [('18CS744', 'Joylene'), ('18CS734', 'Anand Prabhu'), '', '', '', '', '']}]
