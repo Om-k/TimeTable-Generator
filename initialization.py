@@ -33,16 +33,20 @@ if no_Of_Sec<=no_Of_Opt_Subs:
         opt_Sub_Batch_Oppsite[i] = 1
 else:
     sec=1
+    batch = 1
     while sec<=no_Of_Sec:
-        for i in range(sec,sec+no_Of_Sec_In_Batch+1):
-            if i in opt_Sub_Batch.keys():
-                opt_Sub_Batch[i].append(sec)
+        for i in range(sec,min(no_Of_Sec+1,sec+no_Of_Sec_In_Batch)):
+            if batch in opt_Sub_Batch.keys():
+                opt_Sub_Batch[batch].append(i)
             else:
-                opt_Sub_Batch[i] = [i]
-                opt_Sub_Batch_Oppsite[sec] = i
+                opt_Sub_Batch[batch] = [i]
+            opt_Sub_Batch_Oppsite[i] = batch
         sec+=no_Of_Sec_In_Batch
+        batch+=1
 
-#print(opt_Sub_Batch,opt_Sub_Batch_Oppsite)
+#opt_Sub_Batch = {1: [1, 2, 3, 4]} 
+#opt_Sub_Batch_Oppsite = {1: 1, 2: 1, 3: 1, 4 : 1}
+print(opt_Sub_Batch,opt_Sub_Batch_Oppsite)
 
 def leastBusyTeacher(teacher_List):
     val = teacher_List[0]
@@ -111,7 +115,7 @@ for sec in range(1,no_Of_Sec+1):
             teacher_List = sub_Teachers[subject]
             val = leastBusyTeacher(teacher_List)
             assigned_Teachers[(sec,subject)] = val
-            if subject in sub_Teachers["Opt"]:
+            if "Opt" in sub_Teachers.keys() and subject in sub_Teachers["Opt"]:
                 teachers_Busy[val] += int(str(no_Of_Hours_Subject["Opt"])[0])
             else:
                 teachers_Busy[val] += int(str(no_Of_Hours_Subject[subject])[0])
@@ -142,6 +146,7 @@ for sec in range(1,no_Of_Sec+1):
 #print(temp_No_Hours_Lst)
 
 for sec in range(1,no_Of_Sec+1):
+    print(sec,"sec")
     #print(sem7)
     #sem7[sec] = copy.deepcopy(cur_TimeTable)
     period = 1
@@ -149,10 +154,9 @@ for sec in range(1,no_Of_Sec+1):
         
         #print(temp_No_Hours_Lst[sec])
         #print(sem7[sec])
-        for day in range(6):
+        for day in range(no_Of_Days_In_Week):
             if sem7[sec][week_Map[day]][period-1] == ('Opt', ''):
                 continue
-
 
             temp_No_Hours_Lst[sec] = sorted(temp_No_Hours_Lst[sec], key=custom_sort_key, reverse=True)
             hTemp = []

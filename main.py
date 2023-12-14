@@ -22,7 +22,7 @@ techers_Subs = {
     "Janardan" : ["18CS734"]
 }
 
-max_No_Hours = 7
+max_No_Hours = 9
 no_Of_Opt_Subs = 3
 no_Of_Sec_In_Batch = 3
 teachers = ["Suhas","Shiji","Ashwini","Shreenath","Anand Prabhu","Adarsh","Harisha","Reshma","Shreenath2","Joylene","Janardan","Prasad Chandran N","Smitha","Natural"]
@@ -48,8 +48,9 @@ no_Of_Hours_Subject = {
 }
 
 no_Of_Days = 102 
-no_Of_Sec = 3 
+no_Of_Sec = 5
 no_of_weeks = 17
+no_Of_Days_In_Week = 6
 
 week_Day_Probabilty = {
     "Mon" : 90,
