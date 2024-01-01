@@ -80,7 +80,17 @@ def checkIfCollisionAndOptSub(temp_No_Hours,day,period,sec):
                 return True
 
             return False
-        pass
+    elif temp_No_Hours[0][0] == "Lab":
+        if period<=max_No_Hours-lab_Hours:
+            for perd in range(period,period+lab_Hours):
+                for val in break_timings:
+                    if perd!=period and perd==val+1:
+                        return True
+                for subs in sub_Teachers["Lab"]:
+                    if (week_Map[day],assigned_Teachers[(sec,subs)],perd) in asigned_Hours.keys():
+                        return True
+
+            return False
     else:
         return (week_Map[day],assigned_Teachers[(sec,temp_No_Hours[0][0])],period) in asigned_Hours.keys()
 
@@ -107,20 +117,31 @@ temp_No_Hours = sorted(temp_No_Hours, key=custom_sort_key, reverse=True)
 #print(temp_No_Hours)
 temp_No_Days = no_Of_Days
 
+
 #Assigning teachers to each subject to each section
 assigned_Teachers = {}
 for sec in range(1,no_Of_Sec+1):
     for subject in subjects:
-        if subject != "Opt":
+        if subject != "Opt" and subject != "Lab":
             teacher_List = sub_Teachers[subject]
             val = leastBusyTeacher(teacher_List)
-            assigned_Teachers[(sec,subject)] = val
+            
             if "Opt" in sub_Teachers.keys() and subject in sub_Teachers["Opt"]:
                 teachers_Busy[val] += int(str(no_Of_Hours_Subject["Opt"])[0])
+                if (sec,subject) not in assigned_Teachers.keys():
+                    for secs in opt_Sub_Batch[opt_Sub_Batch_Oppsite[sec]]:
+                        assigned_Teachers[(secs,subject)] = val
+
+            elif "Lab" in sub_Teachers.keys() and subject in sub_Teachers["Lab"]:
+                teachers_Busy[val] += int(str(no_Of_Hours_Subject["Lab"])[0])
+                assigned_Teachers[(sec,subject)] = val
             else:
                 teachers_Busy[val] += int(str(no_Of_Hours_Subject[subject])[0])
+                assigned_Teachers[(sec,subject)] = val
 
-#print(assigned_Teachers)
+print()
+print(assigned_Teachers)
+print()
 #Assigning teachers to each subject to each section done
 
 cur_TimeTable = {week_Map[0]:[],
@@ -144,9 +165,8 @@ temp_No_Hours_Lst = [copy.deepcopy(temp_No_Hours)]
 for sec in range(1,no_Of_Sec+1):
     temp_No_Hours_Lst.append(copy.deepcopy(temp_No_Hours)) 
 #print(temp_No_Hours_Lst)
-
+print(temp_No_Hours_Lst)
 for sec in range(1,no_Of_Sec+1):
-    print(sec,"sec")
     #print(sem7)
     #sem7[sec] = copy.deepcopy(cur_TimeTable)
     period = 1
@@ -155,7 +175,7 @@ for sec in range(1,no_Of_Sec+1):
         #print(temp_No_Hours_Lst[sec])
         #print(sem7[sec])
         for day in range(no_Of_Days_In_Week):
-            if sem7[sec][week_Map[day]][period-1] == ('Opt', ''):
+            if sem7[sec][week_Map[day]][period-1] == ('Opt', '') or sem7[sec][week_Map[day]][period-1] == ('Lab', ''):
                 continue
 
             temp_No_Hours_Lst[sec] = sorted(temp_No_Hours_Lst[sec], key=custom_sort_key, reverse=True)
@@ -163,7 +183,7 @@ for sec in range(1,no_Of_Sec+1):
             while temp_No_Hours_Lst[sec] and (checkIfCollisionAndOptSub(temp_No_Hours_Lst[sec],day,period,sec)):
                 hTemp.append(temp_No_Hours_Lst[sec].pop(0))
                 temp_No_Hours_Lst[sec] = sorted(temp_No_Hours_Lst[sec], key=custom_sort_key, reverse=True)
-
+             
             if temp_No_Hours_Lst[sec]:
                 if temp_No_Hours_Lst[sec][0][0] == "Opt":
                     for subs in sub_Teachers["Opt"]:
@@ -177,6 +197,17 @@ for sec in range(1,no_Of_Sec+1):
                     for section in opt_Sub_Batch[opt_Sub_Batch_Oppsite[sec]]:
                         sem7[section][week_Map[day]][period-1] = ((temp_No_Hours_Lst[sec][0][0],""))
                     #make batches and assign
+                elif temp_No_Hours_Lst[sec][0][0] == "Lab":
+                    if period<=max_No_Hours-lab_Hours:
+                        for perd in range(period,period+lab_Hours): 
+                            for subs in sub_Teachers["Lab"]:
+                                asigned_Hours[(week_Map[day],assigned_Teachers[(sec,subs)],perd)] = True       
+                            temp_No_Hours_Lst[sec][0][1] -= process_decimal(no_of_weeks*(week_Day_Probabilty[week_Map[day]]/100))
+                            #print(no_of_weeks*(week_Day_Probabilty[week_Map[day]]/100))
+                            sem7[sec][week_Map[day]][perd-1] = (temp_No_Hours_Lst[sec][0][0],"")
+                        period += lab_Hours-2
+                    else:
+                        period-=1
                 else:
                     asigned_Hours[(week_Map[day],assigned_Teachers[(sec,temp_No_Hours_Lst[sec][0][0])],period)] = True    
                     temp_No_Hours_Lst[sec][0][1] -= process_decimal(no_of_weeks*(week_Day_Probabilty[week_Map[day]]/100))
