@@ -1,6 +1,3 @@
-from test import print_something
-
-
 #initialisations of values
 '''
 AIML: 18CS71
