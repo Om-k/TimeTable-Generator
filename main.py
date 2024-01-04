@@ -37,6 +37,7 @@ no_Of_Batch_For_Div_Sub = 3
 lunch_BreakAfter_Hour = 4
 break_timings = [2,4]           
 
+
 sub_Teachers = { 
     "18CS71" : ["Suhas","Shiji","Reshma"],
     "18CS72" : ["Shiji","Ashwini","Shreenath2"],

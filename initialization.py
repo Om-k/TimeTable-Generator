@@ -292,6 +292,7 @@ print()
 #     print(f"{teacher}'s Workload: {workload[teacher]} hours, Utilization: {utilization[teacher]*100:.2f}%")
 
 
+
 from collections import defaultdict
 
 # Section-wise teacher workload

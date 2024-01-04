@@ -61,5 +61,4 @@ def checkTeacherAvailability(timetables):
     pass
 
 
-
 print(fitnessCalculation(timetable))
