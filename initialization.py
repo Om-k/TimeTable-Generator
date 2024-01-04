@@ -74,13 +74,13 @@ def checkIfCollisionAndOptSub(temp_No_Hours,day,period,sec):
             if (week_Map[day],assigned_Teachers[(sec,i)],period) in asigned_Hours.keys():
                 return True
         return False
-    elif temp_No_Hours[0][0] == "Opt":
-        for subs in sub_Teachers["Opt"]:
+    elif temp_No_Hours[0][0] in class_Mix_Subs.keys():
+        for subs in sub_Teachers[temp_No_Hours[0][0]]:
             if (week_Map[day],assigned_Teachers[(sec,subs)],period) in asigned_Hours.keys():
                 return True
 
             return False
-    elif temp_No_Hours[0][0] == "Lab":
+    elif temp_No_Hours[0][0] in class_Div_Subs.keys():
         if period<=max_No_Hours-lab_Hours:
             for perd in range(period,period+lab_Hours):
                 for val in break_timings:
@@ -111,34 +111,59 @@ sample_TimeTable = {
 
 asigned_Hours = {}
 temp_No_Hours = list(no_Of_Hours_Subject.items())
+print(temp_No_Hours)
 for i in range(len(temp_No_Hours)):
-    temp_No_Hours[i] = list(temp_No_Hours[i])
+    if isinstance(temp_No_Hours[i][1],list):
+        tmpVal = temp_No_Hours[i][1][0]
+        changeVal = list(temp_No_Hours[i])
+        changeVal[1] = changeVal[1][0] 
+        temp_No_Hours[i] = changeVal
+    else:
+        temp_No_Hours[i] = list(temp_No_Hours[i])
 temp_No_Hours = sorted(temp_No_Hours, key=custom_sort_key, reverse=True)
 #print(temp_No_Hours)
+print(temp_No_Hours)
 temp_No_Days = no_Of_Days
 
 
 #Assigning teachers to each subject to each section
-assigned_Teachers = {}
+assigned_Teachers = {}          
 for sec in range(1,no_Of_Sec+1):
     for subject in subjects:
-        if subject != "Opt" and subject != "Lab":
+        teacher_List = None
+        val = None
+
+        if subject not in class_Div_Subs.keys() and subject not in class_Mix_Subs.keys():
             teacher_List = sub_Teachers[subject]
             val = leastBusyTeacher(teacher_List)
-            
-            if "Opt" in sub_Teachers.keys() and subject in sub_Teachers["Opt"]:
-                teachers_Busy[val] += int(str(no_Of_Hours_Subject["Opt"])[0])
-                if (sec,subject) not in assigned_Teachers.keys():
-                    for secs in opt_Sub_Batch[opt_Sub_Batch_Oppsite[sec]]:
-                        assigned_Teachers[(secs,subject)] = val
 
-            elif "Lab" in sub_Teachers.keys() and subject in sub_Teachers["Lab"]:
-                teachers_Busy[val] += int(str(no_Of_Hours_Subject["Lab"])[0])
-                assigned_Teachers[(sec,subject)] = val
-            else:
-                teachers_Busy[val] += int(str(no_Of_Hours_Subject[subject])[0])
-                assigned_Teachers[(sec,subject)] = val
+            if subject not in multi_Sub_Parent.keys() and subject not in class_Div_Subs.keys() and subject not in class_Mix_Subs.keys():
+                incrmVal = 0
+                if isinstance(no_Of_Hours_Subject[subject],list):
+                    incrmVal = no_Of_Hours_Subject[subject][0]
+                else:
+                    incrmVal = no_Of_Hours_Subject[subject]
 
+                teachers_Busy[val] += incrmVal
+                assigned_Teachers[(sec,subject)] = val
+            elif subject in multi_Sub_Parent.keys():
+                incrmVal = 0
+                if isinstance(no_Of_Hours_Subject[multi_Sub_Parent[subject]],list):
+                    incrmVal = no_Of_Hours_Subject[multi_Sub_Parent[subject]][0]
+                else:
+                    incrmVal = no_Of_Hours_Subject[multi_Sub_Parent[subject]]
+                if multi_Sub_Parent[subject] in class_Div_Subs.keys():
+                    teachers_Busy[val] += incrmVal
+                    if (sec,subject) not in assigned_Teachers.keys():
+                        for secs in opt_Sub_Batch[opt_Sub_Batch_Oppsite[sec]]:
+                            assigned_Teachers[(secs,subject)] = val
+                elif multi_Sub_Parent[subject] in class_Mix_Subs.keys():
+                    teachers_Busy[val] += incrmVal
+                    assigned_Teachers[(sec,subject)] = val
+
+
+print()
+print(teachers_Busy)
 print()
 print(assigned_Teachers)
 print()
@@ -166,6 +191,7 @@ for sec in range(1,no_Of_Sec+1):
     temp_No_Hours_Lst.append(copy.deepcopy(temp_No_Hours)) 
 #print(temp_No_Hours_Lst)
 print(temp_No_Hours_Lst)
+print()
 for sec in range(1,no_Of_Sec+1):
     #print(sem7)
     #sem7[sec] = copy.deepcopy(cur_TimeTable)
@@ -198,6 +224,7 @@ for sec in range(1,no_Of_Sec+1):
                         sem7[section][week_Map[day]][period-1] = ((temp_No_Hours_Lst[sec][0][0],""))
                     #make batches and assign
                 elif temp_No_Hours_Lst[sec][0][0] == "Lab":
+                    lab_Hours = no_Of_Hours_Subject[temp_No_Hours_Lst[sec][0][0]][1]
                     if period<=max_No_Hours-lab_Hours:
                         for perd in range(period,period+lab_Hours): 
                             for subs in sub_Teachers["Lab"]:
@@ -228,7 +255,40 @@ for sec in range(1,no_Of_Sec+1):
 file = open('output.txt', 'w')           
 print(sem7)
 file.write(str(sem7))
-
+        
 #print(asigned_Hours)
 #file.write(json.dumps(sem7, indent=2))
 
+print()
+
+# workload = {teacher: sum(teachers_Busy[teacher] for sub in subjects if teacher in sub_Teachers[sub]) for teacher in teachers}
+
+# # Calculate utilization (workload / available hours) for each teacher
+# utilization = {teacher: workload[teacher] / teachers_Busy[teacher] for teacher in teachers}
+
+# # Display the results
+# for teacher in teachers:
+#     print(f"{teacher}'s Workload: {workload[teacher]} hours, Utilization: {utilization[teacher]*100:.2f}%")
+
+
+from collections import defaultdict
+
+# Section-wise teacher workload
+section_teacher_workload = defaultdict(int)
+for (section, subject), teacher in assigned_Teachers.items():
+    section_teacher_workload[(section, teacher)] += teachers_Busy[teacher]
+
+# Teacher utilization
+teacher_utilization = {teacher: sum(section_teacher_workload[(section, teacher)] for section in range(1, 4)) for teacher in teachers_Busy}
+
+# Subject coverage
+subject_coverage = defaultdict(set)
+for (section, subject), teacher in assigned_Teachers.items():
+    subject_coverage[(section, subject)].add(teacher)
+
+# Display results
+for teacher in teachers_Busy:
+    print(f"{teacher}'s Total Workload: {teacher_utilization[teacher]} hours, Utilization: {teacher_utilization[teacher] / teachers_Busy[teacher] * 100:.2f}%")
+
+for (section, subject), teachers_assigned in subject_coverage.items():
+    print(f"Section {section}, Subject {subject}: Teachers Assigned - {teachers_assigned}, Number of Teachers: {len(teachers_assigned)}")

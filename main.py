@@ -7,8 +7,8 @@ UID: 18CS734
 '''
 
 techers_Subs = {
-    "Suhas":["18CS71"],
-    "Shiji":["18CS71","18CS72"],
+    "Suhas":["18CS71","18CSL76"],
+    "Shiji":["18CS71","18CS72","18CSL76"],
     "Anand Prabhu":["18CS734"],
     "Shreenath":["18CS734"],
     "Adarsh":["18CS744"],
@@ -17,7 +17,13 @@ techers_Subs = {
     "Reshma" : ["18CS71"],
     "Shreenath2" : ["18CS72"],
     "Joylene" : ["18CS744"],
-    "Janardan" : ["18CS734"]
+    "Janardan" : ["18CS734"],
+    "Ragavendra Sooda" : ["18CSL77"],
+    "Prasad Chandran N" : ["18CSOP1"],
+    "Vishal" : ["18CSOP1"],
+    "Smitha" : ["18CSOP2"],
+    "Natural":["18CSOP3"]
+
 }
 
 max_No_Hours = 9
@@ -51,7 +57,16 @@ no_Of_Hours_Subject = {
     "18CS734":40,
     "18CS744":40,
     "Opt": 40 #[18CSOP1,18CSOP2,18CSOP3]#[40,40,40] #as many as number of sections
-    ,"Lab" : 36
+    ,"Lab" : [36,3]
+}
+
+#Mapping lab and optional subjects to their parent names
+multi_Sub_Parent = {
+    "18CSOP1" : "Opt",
+    "18CSOP2" : "Opt",
+    "18CSOP3" : "Opt",
+    "18CSL76" : "Lab",
+    "18CSL77" : "Lab"
 }
 
 #class_Div_Subs = set(["Lab"])

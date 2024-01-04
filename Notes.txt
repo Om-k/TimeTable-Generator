@@ -1,0 +1,9 @@
+About assigning teacher:
+It can be done by weight stuufs..
+So how we do it it first caluclate how much hours will that teacher be taking if we assigned all the classes they can take(inclluding sections). 
+After while assigning we assign to teachers who have less classes to take overall(based on prev calculation).
+After we assign a class to teacher the other teachers hours get decreased by that classes hours also from that tacher in itsef.
+This is thing is done continiusly.. then figure it out!!
+
+About making mutation:
+We takke a point that voilateds a constraint and then randomly take a period and replace it with that period (if the place doesnt voilate hard constraint with the current subject), if it voialtes any hard constraints for the new subject then that random changing thing is done with the new period. This is done until hard constraint is followed.
