@@ -86,7 +86,7 @@ def checkIfCollisionAndOptSub(temp_No_Hours,day,period,sec):
                 for val in break_timings:
                     if perd!=period and perd==val+1:
                         return True
-                for subs in sub_Teachers["Lab"]:
+                for subs in sub_Teachers[temp_No_Hours[0][0]]:
                     if (week_Map[day],assigned_Teachers[(sec,subs)],perd) in asigned_Hours.keys():
                         return True
 
@@ -211,35 +211,56 @@ for sec in range(1,no_Of_Sec+1):
                 temp_No_Hours_Lst[sec] = sorted(temp_No_Hours_Lst[sec], key=custom_sort_key, reverse=True)
              
             if temp_No_Hours_Lst[sec]:
-                if temp_No_Hours_Lst[sec][0][0] == "Opt":
-                    for subs in sub_Teachers["Opt"]:
-                        asigned_Hours[(week_Map[day],assigned_Teachers[(sec,subs)],period)] = True    
+                if temp_No_Hours_Lst[sec][0][0] in class_Mix_Subs.keys():
+                    no_Of_Hours_To_Take = 1
+                    if isinstance(no_Of_Hours_Subject[temp_No_Hours_Lst[sec][0][0]],list):
+                        no_Of_Hours_To_Take = no_Of_Hours_Subject[temp_No_Hours_Lst[sec][0][0]][1]
+
+                    if period<=max_No_Hours-no_Of_Hours_To_Take:
+                        for perd in range(period,period+no_Of_Hours_To_Take): 
+                            for subs in sub_Teachers[temp_No_Hours_Lst[sec][0][0]]:
+                                asigned_Hours[(week_Map[day],assigned_Teachers[(sec,subs)],perd)] = True    
+                            
+                            for section in opt_Sub_Batch[opt_Sub_Batch_Oppsite[sec]]:
+                                for subs_H in temp_No_Hours_Lst[section]:
+                                    if subs_H[0]==temp_No_Hours_Lst[sec][0][0]:
+                                            subs_H[1] -= process_decimal(no_of_weeks*(week_Day_Probabilty[week_Map[day]]/100))
+                            #print(no_of_weeks*(week_Day_Probabilty[week_Map[day]]/100))
+                            for section in opt_Sub_Batch[opt_Sub_Batch_Oppsite[sec]]:
+                                sem7[section][week_Map[day]][perd-1] = ((temp_No_Hours_Lst[sec][0][0],""))
+                            #make batches and assign
+                elif temp_No_Hours_Lst[sec][0][0] in class_Div_Subs.keys():
+                    no_Of_Hours_To_Take = 1
+                    if isinstance(no_Of_Hours_Subject[temp_No_Hours_Lst[sec][0][0]],list):
+                        no_Of_Hours_To_Take = no_Of_Hours_Subject[temp_No_Hours_Lst[sec][0][0]][1]
                     
-                    for section in opt_Sub_Batch[opt_Sub_Batch_Oppsite[sec]]:
-                        for subs_H in temp_No_Hours_Lst[section]:
-                            if subs_H[0]=="Opt":
-                                    subs_H[1] -= process_decimal(no_of_weeks*(week_Day_Probabilty[week_Map[day]]/100))
-                    #print(no_of_weeks*(week_Day_Probabilty[week_Map[day]]/100))
-                    for section in opt_Sub_Batch[opt_Sub_Batch_Oppsite[sec]]:
-                        sem7[section][week_Map[day]][period-1] = ((temp_No_Hours_Lst[sec][0][0],""))
-                    #make batches and assign
-                elif temp_No_Hours_Lst[sec][0][0] == "Lab":
-                    lab_Hours = no_Of_Hours_Subject[temp_No_Hours_Lst[sec][0][0]][1]
-                    if period<=max_No_Hours-lab_Hours:
-                        for perd in range(period,period+lab_Hours): 
-                            for subs in sub_Teachers["Lab"]:
+                    if period<=max_No_Hours-no_Of_Hours_To_Take:
+                        for perd in range(period,period+no_Of_Hours_To_Take): 
+                            for subs in sub_Teachers[temp_No_Hours_Lst[sec][0][0]]:
                                 asigned_Hours[(week_Map[day],assigned_Teachers[(sec,subs)],perd)] = True       
                             temp_No_Hours_Lst[sec][0][1] -= process_decimal(no_of_weeks*(week_Day_Probabilty[week_Map[day]]/100))
                             #print(no_of_weeks*(week_Day_Probabilty[week_Map[day]]/100))
                             sem7[sec][week_Map[day]][perd-1] = (temp_No_Hours_Lst[sec][0][0],"")
-                        period += lab_Hours-2
+                        period += no_Of_Hours_To_Take
+                        period-=1
                     else:
                         period-=1
                 else:
-                    asigned_Hours[(week_Map[day],assigned_Teachers[(sec,temp_No_Hours_Lst[sec][0][0])],period)] = True    
-                    temp_No_Hours_Lst[sec][0][1] -= process_decimal(no_of_weeks*(week_Day_Probabilty[week_Map[day]]/100))
-                    #print(no_of_weeks*(week_Day_Probabilty[week_Map[day]]/100))
-                    sem7[sec][week_Map[day]][period-1] = ((temp_No_Hours_Lst[sec][0][0],assigned_Teachers[(sec,temp_No_Hours_Lst[sec][0][0])]))
+                    no_Of_Hours_To_Take = 1
+                    if isinstance(no_Of_Hours_Subject[temp_No_Hours_Lst[sec][0][0]],list):
+                        no_Of_Hours_To_Take = no_Of_Hours_Subject[temp_No_Hours_Lst[sec][0][0]][1]
+
+                    if period<=max_No_Hours-no_Of_Hours_To_Take:
+                        for perd in range(period,period+no_Of_Hours_To_Take): 
+                            asigned_Hours[(week_Map[day],assigned_Teachers[(sec,temp_No_Hours_Lst[sec][0][0])],perd)] = True    
+                            temp_No_Hours_Lst[sec][0][1] -= process_decimal(no_of_weeks*(week_Day_Probabilty[week_Map[day]]/100))
+                            #print(no_of_weeks*(week_Day_Probabilty[week_Map[day]]/100))
+                            sem7[sec][week_Map[day]][perd-1] = ((temp_No_Hours_Lst[sec][0][0],assigned_Teachers[(sec,temp_No_Hours_Lst[sec][0][0])]))
+                        period += no_Of_Hours_To_Take
+                        period-=1
+                    else:
+                        period-=1
+                
                 if temp_No_Hours_Lst[sec][0][1] <=0:
                     temp_No_Hours_Lst[sec].pop(0)
             if hTemp:
